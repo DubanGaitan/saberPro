@@ -30,7 +30,7 @@
 				                            <select name="select" id="select" class="form-control" v-model="modulo">
 				                              <option selected disabled>Seleccione..</option>
 				                              @foreach($competencias as $competencia)
-				                              	<option value="{{ $competencia->idCompetencias }}">{{ $competencia->nombreCompe }}</option>
+				                              	<option value="{{ $competencia->id }}">{{ $competencia->nombreCompe }}</option>
 				                              @endforeach
 				                            </select>
 				                          </div>
@@ -105,17 +105,17 @@
                               <div class="form-check">
                                 <div class="radio">
                                   <label for="radio1" class="form-check-label ">
-                                    <input type="radio" id="radio1" name="radios" value="option1" class="form-check-input">Lineal
+                                    <input type="radio" id="radio1" name="radios" v-model="optgengraf" value="option1" class="form-check-input" checked="true">Lineal
                                   </label>
                                 </div>
                                 <div class="radio">
                                   <label for="radio2" class="form-check-label ">
-                                    <input type="radio" id="radio2" name="radios" value="option2" class="form-check-input">Barras
+                                    <input type="radio" id="radio2" name="radios" v-model="optgengraf" value="option2" class="form-check-input">Barras
                                   </label>
                                 </div>
                                 <div class="radio">
                                   <label for="radio3" class="form-check-label ">
-                                    <input type="radio" id="radio3" name="radios" value="option3" class="form-check-input">Torta
+                                    <input type="radio" id="radio3" name="radios" v-model="optgengraf" value="option3" class="form-check-input">Torta
                                   </label>
                                 </div>
                               </div>
@@ -131,7 +131,7 @@
                                   <div class="col-lg-6">
 			                          <div class="card">
 			                              <div class="card-body">
-			                                  <h4 class="mb-3">Team Commits </h4>
+			                                  <h4 class="mb-3">Area de grafica</h4>
 			                                  <canvas id="team-chart"></canvas>
 			                              </div>
 			                          </div>
@@ -161,85 +161,20 @@
 				anoFin : 'Seleccione..',
 				anos : [],
 				puntaje : [],
+				optgengraf : 'option1',
 				//periodoIni : 'Seleccione..',
 				//periodoFin : 'Seleccione..',
 			},
 			watch: {
-				anos: function () {
-					var temachart = document.getElementById( "team-chart" );
-			        var myChart = new Chart( temachart, {
-			            type: 'line',
-			            data: {
-			                labels: this.anos,
-			                type: 'line',
-			                defaultFontFamily: 'Montserrat',
-			                datasets: [ {
-			                    data: this.puntaje,
-			                    label: "Expense",
-			                    backgroundColor: 'rgba(0,103,255,.15)',
-			                    borderColor: 'rgba(0,103,255,0.5)',
-			                    borderWidth: 3.5,
-			                    pointStyle: 'circle',
-			                    pointRadius: 5,
-			                    pointBorderColor: 'transparent',
-			                    pointBackgroundColor: 'rgba(0,103,255,0.5)',
-			                }, ]
-			            },
-			            options: {
-			                responsive: true,
-			                tooltips: {
-			                    mode: 'index',
-			                    titleFontSize: 12,
-			                    titleFontColor: '#000',
-			                    bodyFontColor: '#000',
-			                    backgroundColor: '#fff',
-			                    titleFontFamily: 'Montserrat',
-			                    bodyFontFamily: 'Montserrat',
-			                    cornerRadius: 3,
-			                    intersect: false,
-			                },
-			                legend: {
-			                    display: false,
-			                    position: 'top',
-			                    labels: {
-			                        usePointStyle: true,
-			                        fontFamily: 'Montserrat',
-			                    },
-			                },
-			                scales: {
-			                    xAxes: [ {
-			                        display: true,
-			                        gridLines: {
-			                            display: false,
-			                            drawBorder: false
-			                        },
-			                        scaleLabel: {
-			                            display: false,
-			                            labelString: 'Month'
-			                        }
-			                            } ],
-			                    yAxes: [ {
-			                        display: true,
-			                        gridLines: {
-			                            display: false,
-			                            drawBorder: false
-			                        },
-			                        scaleLabel: {
-			                            display: true,
-			                            labelString: 'Value'
-			                        }
-			                    } ]
-			                },
-			                title: {
-			                    display: false,
-			                }
-			            }
-			        } );
+				optgengraf: function(){
+					this.graficarjs()
 				},
+				anos: function(){
+					this.graficarjs()
+				}
 			},
 			methods:{
 				graficar: function(){
-
 					event.preventDefault();
 					axios.post('/history/grafica', {
 						modulo : this.modulo,
@@ -250,7 +185,7 @@
 					})
 					.then(
 			        	response => {
-							console.log(response.data['anos']);
+							//console.log(response.data['anos']);
 							this.anos = response.data['anos'];
 							this.puntaje = response.data['puntaje'];
 							event.target.reset();
@@ -260,42 +195,142 @@
 		        		if (error.response) {
 						}
 					});
-				}
+				},
+				graficarjs: function () {
+					var temachart = document.getElementById( "team-chart" );
+					if ( window.myChart ) {
+						window.myChart.clear();
+						window.myChart.destroy();
+					}
+					if( this.optgengraf == 'option1' ){
+				        window.myChart = new Chart( temachart, {
+				            type: 'line',
+				            data: {
+				                labels: this.anos,
+				                type: 'line',
+				                defaultFontFamily: 'Montserrat',
+				                datasets: [ {
+				                    data: this.puntaje,
+				                    label: "Expense",
+				                    backgroundColor: 'rgba(0,103,255,.15)',
+				                    borderColor: 'rgba(0,103,255,0.5)',
+				                    borderWidth: 3.5,
+				                    pointStyle: 'circle',
+				                    pointRadius: 5,
+				                    pointBorderColor: 'transparent',
+				                    pointBackgroundColor: 'rgba(0,103,255,0.5)',
+				                }, ]
+				            },
+				            options: {
+				                responsive: true,
+				                tooltips: {
+				                    mode: 'index',
+				                    titleFontSize: 12,
+				                    titleFontColor: '#000',
+				                    bodyFontColor: '#000',
+				                    backgroundColor: '#fff',
+				                    titleFontFamily: 'Montserrat',
+				                    bodyFontFamily: 'Montserrat',
+				                    cornerRadius: 3,
+				                    intersect: false,
+				                },
+				                legend: {
+				                    display: false,
+				                    position: 'top',
+				                    labels: {
+				                        usePointStyle: true,
+				                        fontFamily: 'Montserrat',
+				                    },
+				                },
+				                scales: {
+				                    xAxes: [ {
+				                        display: true,
+				                        gridLines: {
+				                            display: false,
+				                            drawBorder: false
+				                        },
+				                        scaleLabel: {
+				                            display: false,
+				                            labelString: 'year'
+				                        }
+				                            } ],
+				                    yAxes: [ {
+				                        display: true,
+				                        gridLines: {
+				                            display: false,
+				                            drawBorder: false
+				                        },
+				                        scaleLabel: {
+				                            display: true,
+				                            labelString: 'Puntaje'
+				                        }
+				                    } ]
+				                },
+				                title: {
+				                    display: false,
+				                }
+				            }
+				        });
+					}else if( this.optgengraf == 'option2' ){
+						window.myChart = new Chart( temachart, {
+					        type: 'bar',
+					        data: {
+						        labels: this.anos,
+					            datasets: [
+					                {
+					                    label: "Promedio por periodo",
+					                    data: this.puntaje,
+					                    borderColor: "rgba(0, 123, 255, 0.9)",
+					                    borderWidth: "0",
+					                    backgroundColor: "rgba(0, 123, 255, 0.5)"
+					                            }
+					                        ]
+					        },
+					        options: {
+					            scales: {
+					                yAxes: [ {
+					                    ticks: {
+					                        beginAtZero: true
+					                    }
+				                    } ]
+					            }
+					        }
+				        });
+					}else if(this.optgengraf == 'option3'){
+					    window.myChart = new Chart( temachart, {
+					        type: 'pie',
+					        data: {
+					            datasets: [ {
+					                data: this.puntaje,
+					                backgroundColor: [
+					                                    "rgba(0, 123, 255,0.9)",
+					                                    "rgba(0, 123, 255,0.7)",
+					                                    "rgba(0, 123, 255,0.5)",
+					                                    "rgba(0,0,0,0.07)"
+					                                ],
+					                hoverBackgroundColor: [
+					                                    "rgba(0, 123, 255,0.9)",
+					                                    "rgba(0, 123, 255,0.7)",
+					                                    "rgba(0, 123, 255,0.5)",
+					                                    "rgba(0,0,0,0.07)"
+					                                ]
+
+					                            } ],
+					            labels: this.anos
+					        },
+					        options: {
+					            responsive: true
+					        }
+					    } );
+					}
+				},
 			},
+			mounted: function () {
+				this.graficarjs()
+			}
 			
 
 		});
-
-	    var ctx = document.getElementById( "singelBarChart" );
-	    if( ctx ){
-	        ctx.height = 150;
-	        var myChart = new Chart( ctx, {
-		        type: 'bar',
-		        data: {
-			        labels: vm.anos,
-		            datasets: [
-		                {
-		                    label: "Promedio por periodo",
-		                    data: vm.puntaje,
-		                    borderColor: "rgba(0, 123, 255, 0.9)",
-		                    borderWidth: "0",
-		                    backgroundColor: "rgba(0, 123, 255, 0.5)"
-		                            }
-		                        ]
-		        },
-		        options: {
-		            scales: {
-		                yAxes: [ {
-		                    ticks: {
-		                        beginAtZero: true
-		                    }
-	                    } ]
-		            }
-		        }
-	        } );
-	    }
-
-
 	</script>
 
 @endsection

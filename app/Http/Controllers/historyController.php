@@ -98,8 +98,17 @@ class historyController extends Controller
             }
             $cont += 1;
         }
-        return response()->json(['anos' => $arrayaño,
+
+        return response()->json([
+            'anos' => $arrayaño,
             'puntaje' => $arraypuntaje,
+        ]);
+    }
+
+    public function listResult(){
+        $historial = Historialsaberpro::all();
+        return view('history/listResult',[
+            'history' => $historial
         ]);
     }
 }

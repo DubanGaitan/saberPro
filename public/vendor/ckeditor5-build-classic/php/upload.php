@@ -29,8 +29,7 @@ $baseUrl = '{{ URL::asset("temp/") }}';
 // Optional: instance name (might be used to adjust the server folders for example)
 //$CKEditor = $_GET['CKEditor'] ;
 // Required: Function number as indicated by CKEditor.
-$funcNum = $_GET ;
-//var_dump($funcNum);exit();
+//$funcNum = $_GET['CKEditorFuncNum'] ;
 // Optional: To provide localized messages
 //$langCode = $_GET['langCode'] ;
 // ------------------------
@@ -51,7 +50,7 @@ if (isset($_FILES['upload'])) {
     // Build the url that should be used for this file   
     $url = $baseUrl . $name ;
     // Usually you don't need any message when everything is OK.
-//    $message = 'new file uploaded';   
+    $message = 'new file uploaded';   
 }
 else
 {

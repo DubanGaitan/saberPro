@@ -23,6 +23,7 @@ Route::get('/history/add','historyController@viewHistory');
 Route::post('/history/new','historyController@newHistory');
 Route::get('/history/grafica','historyController@viewgrafica');
 Route::post('/history/grafica','historyController@graficar');
+Route::get('/history/list','historyController@listResult');
 
 
 Route::get('/pregunta/nueva','preguntaController@nuevaPregunta');
@@ -39,4 +40,4 @@ Route::post('/Questionnaire/newQuestionnaire','cuestionarioController@NewQuestio
 
 Route::get('/questionary/list','cuestionarioController@listQuestionary');
 
-Route::post('/uploadImage/editText{command}','uploadController@uploadImage');
+Route::post('/uploadImage/editText','uploadController@uploadImage');

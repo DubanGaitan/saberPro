@@ -1,0 +1,36 @@
+DB Alumnos 
+Historial PruebasSaberPro 
+	--crear PLANILLA donde guarden las notas de los demás modulos y calcular el total. (OJO VER IMAGEN)
+			*Guardar Cedula del alumno, t
+			*traer nombre cuando digite la cc.
+			*Guardar el cod de la prueba con la que presento la pruebas.
+			*fecha (dd/mm/aaaa) en las que se presento.
+			*crear maestro
+			*Guardar los demás modulo.
+
+
+///// ALCANCE FUTURO /////
+(API donde traiga la informacion de la prueba: )
+
+
+Alimentar la BD con un archivo en excel, 
+
+
+/// modulo de Perfil //
+	perfil admin. ->CRUD USUARIOS, CRUD preg, CRUD, CUestionarios, CRUD HIstorico
+	perfil academico. ->
+	perfil estudiante.
+		mostrar los resultados de los estudiantes,
+
+
+/////////////CUESTIONARIOS///////
+Poner fecha en las preguntas
+poder copiar preguntas ya hechas que estan en la base de datos
+las preguntas Lectura critica ver el texto en pdf que sea un link.
+
+
+10:40am
+
+
+1.400.000
+		280.000 -> salud y pensión

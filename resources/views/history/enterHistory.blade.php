@@ -21,15 +21,7 @@
                                   <hr>
                                   <form  @submit.prevent="newHistory" novalidate="novalidate">
                                   	{{ csrf_field() }}
-                                      <!--div class="form-group text-center">
-                                          <ul class="list-inline">
-                                              <li class="list-inline-item"><i class="text-muted fa fa-cc-visa fa-2x"></i></li>
-                                              <li class="list-inline-item"><i class="fa fa-cc-mastercard fa-2x"></i></li>
-                                              <li class="list-inline-item"><i class="fa fa-cc-amex fa-2x"></i></li>
-                                              <li class="list-inline-item"><i class="fa fa-cc-discover fa-2x"></i></li>
-                                          </ul>
-                                      </div-->
-                                      <div class="col-md-12">
+                                       <div class="col-md-12">
 	                                      <div class="col-md-1">
 				                            	<label for="select" class="control-label">Modulo</label>
 				                          </div>
@@ -37,7 +29,7 @@
 				                            <select name="select" id="select" class="form-control" v-model="modulo">
 				                              <option selected disabled>Seleccione..</option>
 				                              @foreach($competencias as $competencia)
-				                              	<option value="{{ $competencia->idCompetencias }}">{{ $competencia->nombreCompe }}</option>
+				                              	<option value="{{ $competencia->id }}">{{ $competencia->nombreCompe }}</option>
 				                              @endforeach
 				                            </select>
 				                          </div>
@@ -57,18 +49,6 @@
 			                                @endforeach
 			                              </select>
 			                            </div>
-			                            <div class="col-md-1">
-			                            	<label for="select" class="control-label mb-1">Periodo</label>
-			                            </div>
-			                            <div class="col-12 col-md-2">
-			                              <select name="select" id="select" class="form-control" v-model="resultado.periodo">
-			                                <option selected disabled>Seleccione..</option>
-			                                @foreach($periodos as $periodo)
-			                                	<option value="{{ $periodo->id }}">{{ $periodo->periodo }}</option>
-			                                @endforeach
-			                              </select>
-			                            </div>
-			                            
 			                            <div class="col-md-1">
 			                               <label for="cc-payment" class="control-label mb-1">Puntaje</label>
 			                            </div>
@@ -123,7 +103,6 @@
 				modulo : 'Seleccione..',
 				form: {
 					ano : 'Seleccione..',
-					periodo : 'Seleccione..',
 					puntaje : '',
 				},
 				resultados: []
